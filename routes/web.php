@@ -1,21 +1,22 @@
 <?php
 
+use App\Http\Controllers\DestinyController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+ * |--------------------------------------------------------------------------
+ * | Web Routes
+ * |--------------------------------------------------------------------------
+ * |
+ * | Here is where you can register web routes for your application. These
+ * | routes are loaded by the RouteServiceProvider and all of them will
+ * | be assigned to the "web" middleware group. Make something great!
+ * |
+ */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/dashboard', function () {
@@ -27,5 +28,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::prefix('destiny')->group(function () {
+    Route::get('/guardiao', [DestinyController::class, 'getProfileData'])->name('getGuardiao');
+    Route::get('/guardiao/personagens', [DestinyController::class, 'getProfileCharacters'])->name('getPersonagens');
+});
 
-require __DIR__.'/auth.php';
+Route::resource('destiny', DestinyController::class);
+
+require __DIR__ . '/auth.php';
